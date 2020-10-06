@@ -1,14 +1,19 @@
 package assign251_2;
 
+import org.apache.log4j.PatternLayout;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.velocity.app.Velocity;
 
-public class CustomLogLayout {
+public class CustomLogLayout  extends PatternLayout {
 	
-	public String format(LoggingEvent event)
+	
+	public CustomLogLayout(LoggingEvent event)
 	{
-		return null;
-	
+		super.format(event);
 		
+	}
+	
+	public String format(LoggingEvent event) {
+		return null;
 	}
 }
