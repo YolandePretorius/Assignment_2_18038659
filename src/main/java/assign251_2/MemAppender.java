@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Layout;
@@ -13,14 +14,21 @@ public class MemAppender extends AppenderSkeleton {
 
 	public List<LoggingEvent> eventsList = new ArrayList();
 	private Layout layoutApender = null;
+	private long counterDiscardedLogs = 0;
 	private int maxListSize;
-	private static MemAppender instance = new MemAppender();
+	
+	private static MemAppender instance = new MemAppender(); // create instance of class so that only one instance is created
+		
+	public long getCounterDiscardedLogs() {
+		return counterDiscardedLogs;
+	}
 
+	
 	private MemAppender() {
 	}
 
-	public static MemAppender getInstance() {
-		return instance;
+	public static MemAppender getInstance() { 
+		return instance;  
 	}
 
 	public List<LoggingEvent> getEventsList() {
@@ -44,9 +52,11 @@ public class MemAppender extends AppenderSkeleton {
 		else {
 			eventsList.remove(0);
 			eventsList.add(event);
+			counterDiscardedLogs +=1; 
 			
 		}
 	}
+	
 
 	@Override
 	public void close() {
@@ -87,18 +97,23 @@ public class MemAppender extends AppenderSkeleton {
 	}
 
 	public void printLogs() {
-
-		for (LoggingEvent item : eventsList) {
-			if (layoutApender != null) {
-				System.out.println(layoutApender.format(item));
-			} else {
-				System.out.println(item.toString());
-			}
-
+		if(eventsList.isEmpty()){
+			System.out.println("No items to print");
 		}
+		else {
+			for (LoggingEvent item : eventsList) {
+				if (layoutApender != null) {
+					System.out.println(layoutApender.format(item));
+				} else {
+					System.out.println(item.toString());
+				}
+
+			}
 		eventsList.clear();
+		}
 	}
 		
+
 		public int getMaxListSize() {
 			return maxListSize;
 		}
@@ -106,4 +121,6 @@ public class MemAppender extends AppenderSkeleton {
 		public void setMaxListSize(int maxListSize) {
 			this.maxListSize = maxListSize;
 		}
+		
+		
 }
