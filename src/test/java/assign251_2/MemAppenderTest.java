@@ -3,14 +3,12 @@ package assign251_2;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.spi.LoggingEvent;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.log.LogManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +26,8 @@ class MemAppenderTest {
 		//instanceMemAppender.setLayout(new PatternLayout( "%-5p [%t]: %m%n"));
 		instanceMemAppender.setEventsList(new ArrayList<LoggingEvent>());
 		instanceMemAppender.setMaxListSize(3);	
-		instanceMemAppender.setLayout(new VelocityLayout("[$p] $c$d: $m"));
+		instanceMemAppender.setLayout(new SimpleLayout());
+	
 	}
 	
 	@AfterEach
@@ -67,8 +66,8 @@ class MemAppenderTest {
 	// test if old logs removed when new logs are added
 	@Test
 	void testAppend() {
-		logList.info("Adding a log to the list 1");
-		logList.info("Adding a log to the list 2");
+		logList.debug("Adding a log to the list 1");
+		logList.debug("Adding a log to the list 2");
 		logList.info("Adding a log to the list 3");
 		logList.info("Adding a log to the list 4");
 		int index = instanceMemAppender.getMaxListSize()-1;
@@ -78,7 +77,10 @@ class MemAppenderTest {
 		instanceMemAppender.printLogs();
 	}
 	
-	
+	@Test
+	void testVelocityLayout(){
+		
+	}
    /*
 	@Test
 	void test(){
