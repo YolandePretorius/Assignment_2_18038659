@@ -9,23 +9,33 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
+
 class StressTestConsoleAppender {
 	Logger logList = Logger.getLogger("console");
-	ConsoleAppender conAppender = new ConsoleAppender(null, "console");
-
+	ConsoleAppender conAppender;
+	long startTime;
+	long endTime;
 
 	@BeforeEach
 	void setUp() throws Exception {
+		
+		
+		PatternLayout layout = new PatternLayout("[%p] %c %d: %m%n");
+		//VelocityLayout layout = new VelocityLayout( "[$p] $c $d: $m%n");
+		
+		conAppender = new ConsoleAppender(layout, "console");
 		logList.addAppender(conAppender);
-		conAppender.setLayout(new PatternLayout( "[%p] %c %d: %m"));
-		//conAppender.setLayout(new VelocityLayout( "[$p] $c $d: $m"));
-	
+		
+		startTime = System.currentTimeMillis();
 	
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		
+		conAppender.close();
+		endTime = System.currentTimeMillis();
+		System.out.println("Last Console Apender stress testcase exection time in millisecond : " + (endTime - startTime));
 	}
 
 	@Test
