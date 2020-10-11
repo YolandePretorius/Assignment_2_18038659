@@ -15,18 +15,24 @@ import org.junit.jupiter.api.Test;
 
 
 class MemAppenderTest {
+	
 	Logger logList = Logger.getLogger("memoryList");
 	MemAppender instanceMemAppender = MemAppender.getInstance();  // class MemAppender returns an instance
 
 
 	@BeforeEach
 	void setUp() throws Exception {
+		
 		logList.addAppender(instanceMemAppender);
-		//instanceMemAppender.setLayout(new PatternLayout("%d{MMM dd yyyy HH:mm:ss} %5p [%t] (%F:%L) - %m%n"));
+		
 		//instanceMemAppender.setLayout(new PatternLayout( "%-5p [%t]: %m%n"));
+		instanceMemAppender.setLayout(new VelocityLayout( "[$p] $c $d: $m"));
+		//instanceMemAppender.setLayout(new SimpleLayout());
+		
 		instanceMemAppender.setEventsList(new ArrayList<LoggingEvent>());
+		
 		instanceMemAppender.setMaxListSize(3);	
-		instanceMemAppender.setLayout(new SimpleLayout());
+		
 	
 	}
 	
