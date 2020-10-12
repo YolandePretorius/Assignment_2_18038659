@@ -62,7 +62,7 @@ public class VelocityLayout extends PatternLayout {
 			e.printStackTrace();
 		}
 
-		return null;
+		return "Hello";
 	}
 
 

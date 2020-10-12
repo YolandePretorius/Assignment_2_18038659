@@ -14,8 +14,11 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class StressTestMemAppender {
+	
 	
 	Logger logList = Logger.getLogger("memoryList");
 	MemAppender instanceMemAppender; ;  // class MemAppender returns an instance
@@ -30,8 +33,8 @@ class StressTestMemAppender {
 		
 		logList.addAppender(instanceMemAppender);
 		
-		instanceMemAppender.setLayout(new VelocityLayout( "[$p] $c $d: $m$n"));
-		//instanceMemAppender.setLayout(new PatternLayout( "[%p] %c %d: %m%n"));
+		//instanceMemAppender.setLayout(new VelocityLayout( "[$p] $c $d: $m$n"));
+		instanceMemAppender.setLayout(new PatternLayout( "[%p] %c %d: %m%n"));
 		
 		//instanceMemAppender.setEventsList(new ArrayList<LoggingEvent>());
 		instanceMemAppender.setEventsList(new LinkedList<LoggingEvent>());
@@ -43,19 +46,21 @@ class StressTestMemAppender {
 
 	@AfterEach
 	void tearDown() throws Exception {
-		instanceMemAppender.eventsList.clear();
+		//instanceMemAppender.eventsList.clear();
 		endTime = System.currentTimeMillis();
         System.out.println("Last  MemApender stress testcase exection time in millisecond : " + (endTime - startTime));
 	}
+	
+	@ParameterizedTest(name = "{index} => i =''{0}''")
+	@ValueSource(ints = {100,1000,1500,1000000}) 
+	void testLinked(int ints) {
 
-	@Test
-	void testLinked() {
-
+		  for(int i = 0; i <= ints;i++) { 
 		
-		for (int i = 0 ; i < 1000000 ;i++) {
 			logList.info("Adding a log to the list"+i);
-			
-		};
+			//System.out.println(i);
+		  }
+	//System.out.println();
 		
 	}
 
