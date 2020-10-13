@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class StressTestFileAppender {
 	
-	 //Logger logList = Logger.getLogger("File");
 	 long startTime;
 	 long endTime;
 	FileAppender fileAppender;
@@ -54,7 +53,6 @@ class StressTestFileAppender {
 			logList.info("Adding a log to the list"+i);
 		
 		  }
-		  //System.out.println();
 	}
 
 }

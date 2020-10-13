@@ -3,9 +3,6 @@ package assign251_2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.LongAdder;
-
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
@@ -16,14 +13,14 @@ public class MemAppender extends AppenderSkeleton {
 	private Layout layoutApender = null;
 	private long counterDiscardedLogs = 0;
 	private int maxListSize;
-	
+
 	private static MemAppender instance = new MemAppender(); // create instance of class so that only one instance is created
-		
+
 	public long getCounterDiscardedLogs() {
 		return counterDiscardedLogs;
 	}
 
-	
+
 	private MemAppender() {
 	}
 
@@ -53,10 +50,10 @@ public class MemAppender extends AppenderSkeleton {
 			eventsList.remove(0);
 			eventsList.add(event);
 			counterDiscardedLogs +=1; 
-			
+
 		}
 	}
-	
+
 
 	@Override
 	public void close() {
@@ -74,7 +71,7 @@ public class MemAppender extends AppenderSkeleton {
 		return layout;
 	}
 
-	public List<LoggingEvent> getCurrentLogs() {
+	public List<LoggingEvent> getCurrentLogs() {		// change list to be unfodifiable
 		List<LoggingEvent> eventsListUnMod = Collections.unmodifiableList(eventsList);
 		return eventsListUnMod;
 	}
@@ -88,7 +85,7 @@ public class MemAppender extends AppenderSkeleton {
 			if (layoutApender != null) {
 				listString.add(layoutApender.format(item));
 			} else {
-				listString.add(item.toString());
+				listString.add(item.getMessage().toString());
 			}
 
 		}
@@ -105,22 +102,22 @@ public class MemAppender extends AppenderSkeleton {
 				if (layoutApender != null) {
 					System.out.println(layoutApender.format(item));
 				} else {
-					System.out.println(item.toString());
+					System.out.println(item.getMessage());
 				}
 
 			}
-		eventsList.clear();
+			eventsList.clear();
 		}
 	}
-		
 
-		public int getMaxListSize() {
-			return maxListSize;
-		}
 
-		public void setMaxListSize(int maxListSize) {
-			this.maxListSize = maxListSize;
-		}
-		
-		
+	public int getMaxListSize() {
+		return maxListSize;
+	}
+
+	public void setMaxListSize(int maxListSize) {
+		this.maxListSize = maxListSize;
+	}
+
+
 }

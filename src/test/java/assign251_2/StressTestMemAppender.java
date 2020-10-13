@@ -46,7 +46,6 @@ class StressTestMemAppender {
 
 	@AfterEach
 	void tearDown() throws Exception {
-		//instanceMemAppender.eventsList.clear();
 		endTime = System.currentTimeMillis();
         System.out.println("Last  MemApender stress testcase exection time in millisecond : " + (endTime - startTime));
 	}
@@ -58,9 +57,8 @@ class StressTestMemAppender {
 		  for(int i = 0; i <= ints;i++) { 
 		
 			logList.info("Adding a log to the list"+i);
-			//System.out.println(i);
+	
 		  }
-	//System.out.println();
 		
 	}
 

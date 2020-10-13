@@ -62,11 +62,8 @@ public class VelocityLayout extends PatternLayout {
 			e.printStackTrace();
 		}
 
-		return "Hello";
+		return null;
 	}
-
-
-
 
 	@Override
 	public boolean ignoresThrowable() {
